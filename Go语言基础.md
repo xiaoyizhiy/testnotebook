@@ -46,26 +46,148 @@ expected '(', found '{'syntax
 
 具体来说，编译器或解释器期望在某个地方看到一个左括号 `(`，但实际看到的是一个左大括号 `{`。func main(){  将main后的（）忘记写了
 
+## 计算
+
+Go 跟其他编程语言一样，提供了+、-、*、/、%（取模：取余数）。
+
+```go
+//我的减重程序
+package main
+import "fmt"
+//main 是所有程序的起始函数
+func main(){
+fmt.Print("My weight on the surface of Mars is ")
+fmt.Print(149.0*0.3783)
+fmt.Print(" lbs,and I would be ")
+fmt.Print(41*365/687) 
+fmt.Print("years old.")
+//或者为：fmt,Println("My weight on the surface of Mars is", 149.0*0.3783, "lbs, and I would be",41*365.2425/687，"years old."),
+```
+
+打印出“My weight on the surface of Mars is 56.3667 lbs, and I wouldbe21.79758733624454 years old.”
+
 ## 变量
+
+程序员有时候会把这种没有说明具体含义的字面数字称为魔数
+
+
+
+```go
+// 到达火星需要多长时间?
+package main
+import "fmt"
+func main(){
+const lightSpeed=299792//km/s  //两个新的关键字const和var，它们分别用于声明常量和变量。
+var distance=56000000 // km    //变量必须先声明再赋值 distance=56000000会报错
+fmt.Println(distance/lightSpeed，"seconds")  //打印出186 secends
+distance =401000000
+fmt.Println(distance/lightSpeed，"seconds")  //打印出1337 secends
+}
+```
+
+注意 lightSpeed 常量是不能被修改的，尝试为其赋予新值将导致 Go 编译器报告错误:“无法对 lightSpeed 进行赋值”
+
+注意 变量必须先声明后使用。如果尚未使用 var 关键字对变量进行声明，那么尝试向它赋值将导致 Go 报告错误，例如在前面的代码中执行 speed = 16 就会这样。这一限制有助于发现类似于“想要向 distance 赋值却键入了 distence”这样的问题。
+
+
+
+#### 一次声明多个变量
+
+```go
+var distance= 56000000
+var speed=100800
+```
+
+```go
+var (
+   distance=56000000
+   speed =100800
+)
+
+```
+
+```
+var distance,speed=56000000，100800
+```
+
+#### 数字游戏
+
+```go
+//随机数字
+package main
+import (
+"fmt "
+"math/rand"  //rand 包的导入路径为 math/rand
+)
+func main(){
+var num=rand.Intn(10)+1   //Intn生成0~9的伪随机数（它们并非真正随机，只是看上去或多或少像是随机的而已。）   注意 如果我们在写代码的时候忘记对伪随机数执行加一操作，那么程序将返回一个0~9的数字而不是我们想要的1~10 的数字。这是典型的“差一错误”(off-by-one error)的例子，这种错误是典型的计算机编程错误之一。
+fmt.Println(num)
+num =rand.Intn(10)+1
+fmt.Println(num)
+```
+
+通过 Printf函数和格式化变量v,用户可以将值放置到被显示文本的任意位置上。
+
+```go
+fmt.Printf("%-15v $%4v\n"，"SpaceX"，94)
+fmt.Printf("%-15v $%4v\n","Virgin Galactic"，100)
+//SpaceX          $ 94
+//Virgin Galactic $ 100
+```
+
+对 Go 来说，true 是唯一的真值,而false 则是唯一的假值。
+
+## 比较
+
+比较运算符：既可以比较文本，又可以比较数值。
+
+| 符号 | 含义   | 符号 | 含义     |
+| ---- | ------ | ---- | -------- |
+| ==   | 相等   | <=   | 小于等于 |
+| ！=  | 不相等 | >    | 大于     |
+| <    | 小于   | >=   | 大于等于 |
+
+```go
+//比较数值
+fmt,Println("There is a sign near the entrance that reads 'No Minors'.")
+var age = 4l
+var minor=age<18  //从右向左看，age<18 为false
+fmt.Printf("At age %v,am I a minor? %v\n",age, minor)
+//输出There is a sign near the entrance that reads 'No Minors'At age 4l,am I a minor? false
+```
+
+Go 只提供了一个相等运算符，并且它不允许直接将文本和数值进行比较。
+
+## if else
 
 ```go
 package main
-import(
-  "fmt"
-  "math"
-)
+import "fmt"
 func main(){
-var a="initial"
-var b，c int=1，2
-var d= true
-var e float64
-f := float32(e)
-g := a + "foo"
-fmt.Println(a,b,c,d,e,f)//initial1 2 true 0 0
-fmt.Println(g)          //initialapple
-const s string ="constant"
-const h= 500000000
-const i=3e20 /h
- fmt.Println(s,h,i,math.Sin(h),math.Sin(i))
+var command="go east"
+if command =="go east"{   //检查命令是否为“go east”
+fmt .Println("You head further up the mountain.")}else if command =="go inside"{
+在第一次检查为假之后，检查命令是否为“go inside”
+fmt.Println("You enter the cave where you live out the rest of your life.")}else {
+如果前两次检查都为假，
+fmt.Println("Didn't quite get that.")
+那么执行第三个分支
+J
 ```
+
+
+
+## 循环
+
+
+
+## switch
+
+
+
+## 数组
+
+
+
+## 切片
 
