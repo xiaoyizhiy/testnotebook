@@ -166,16 +166,49 @@ import "fmt"
 func main(){
 var command="go east"
 if command =="go east"{   //检查命令是否为“go east”
-fmt .Println("You head further up the mountain.")}else if command =="go inside"{
-在第一次检查为假之后，检查命令是否为“go inside”
-fmt.Println("You enter the cave where you live out the rest of your life.")}else {
-如果前两次检查都为假，
-fmt.Println("Didn't quite get that.")
-那么执行第三个分支
-J
+  fmt .Println("You head further up the mountain.")
+}else if command =="go inside"{
+//在第一次检查为假之后，检查命令是否为“go inside”
+  fmt.Println("You enter the cave where you live out the rest of your life.")
+}else {
+//如果前两次检查都为假，
+  fmt.Println("Didn't quite get that.")
+}
+//那么执行第三个分支
+}
 ```
 
+## 逻辑运算符
 
+在 Go中，逻辑运算符||代表“逻辑或”，而逻辑运算符&&则代表“逻辑与”。这些逻辑运算符可以一次检查多个条件。
+
+逻辑或:当a、b两个值中至少有一个为true 时，allb为true
+
+逻辑与:当且仅当a、b两个值都为 true 时，a && b为 true
+
+```go
+//能够被4整除但是不能被100整除的年份是闰年或者可以被 400整除的年份是闰年。
+fmt.Println("The year is 2100,should you leap?")
+var year =2100
+var leap=year%400==0||(year%4==0 && year%100 != 0)   //%取余
+if leap {
+  fmt.Println("Look before you leap!")}else {
+  fmt.Println("Keep your feet on the ground." )
+  //输出The year is 2100,should you leap?
+  //输出Keep your feet on the ground.
+```
+
+跟大多数编程语言一样，Go也采用了短路逻辑:如果位于|1运算符之前的第一个条件为真，那么位于!运算符之后的条件就可以被忽略，没有必要再对其进行求值。具体到代码清单 3-4中的例子，当给定年份可以被400整除时，程序就不必再进行后续的判断了。&&运算符的行为与1运算符正好相反:只有在两个条件都为真的情况下，运算结果才为真。对于代码清单3-4中的例子，如果给定年份无法被4整除，那么程序就不会对后续条件进行求值。
+
+逻辑非运算符!可以将一个布尔值从false 变为true，或者将true 变为 false。
+
+```go
+var haveTorch =true //有火把
+var litTorch =false //火把没有点亮
+if !haveTorch ||!litTorch { //如果 false ||true (如果有火把或者没点亮)
+  fmt.Println("Nothing to see here.")
+}
+```
 
 ## 循环
 
@@ -183,11 +216,109 @@ J
 
 ## switch
 
+switch语句，它可以将单个值和多个值进行比较。除文本以外，switch语句还可以接受数值作为条件。
 
+```go
+fmt.Println("There is a cavern entrance here and a path to the east.")
+var command ="go inside"
+switch command { //将命令和给定的多个分支进行比较
+case "go east": 
+fmt.Println("You head further up the mountain.")
+case "enter cave","go inside": //使用逗号分隔多个可选值
+fmt.Println("You find yourself in a dimly lit cavern.")
+case "read sian":
+fmt.Println("The sign reads No Minors'.")
+default:
+fmt.Println("Didn't quite get that.")
+//输出There is a cavern entrance here and a path to the east.
+//You find yourself in a dimly lit cavern.
+```
+
+switch的另一种用法
+
+在 Go 语言中，fallthrough是 switch语句的一部分，用来控制程序从当前 case 继续执行到下一个 case。默认情况下，Go 中的 switch 语句会在匹配到一个 case 后立即终止，而不会自动跳转到下一个 case。但是，当你使用 fallthrough 时，它会强制程序继续执行下一个 case 语句块的代码，而不管下一个 case 的条件是否满足。
+
+```go
+var room ="lake"
+switch{ //比较表达式将被放置到单独的分支里面
+case room==cave":
+fmt,Println("You find yourself in a dimly lit cavern.")
+case room =="lake":
+  fmt.Println("The ice seems solid enough.")
+  fallthrough //下降至下一分支
+case room =="underwater": 
+  fmt.Println("The water is freezing cold.")
+
+//The ice seems solid enough.
+//The water is freezing cold.
+```
 
 ## 数组
 
 
 
 ## 切片
+
+
+
+## map
+
+
+
+## range
+
+
+
+## 函数
+
+rand函数的声明：
+
+rand 包中的 Intn 函数的声明如下:
+func Intn (n int) int
+下面是一个使用 Intn 函数的例子:
+num:= rand.Intn(10)
+
+![image-20241105131255164](C:/Users/Administrator/AppData/Roaming/Typora/typora-user-images/image-20241105131255164.png)
+
+
+
+## 指针
+
+
+
+## 结构体
+
+
+
+## 结构体方法
+
+
+
+## 错误处理
+
+
+
+## 字符串操作
+
+
+
+## 字符串格式化
+
+
+
+## JSON处理
+
+
+
+## 时间处理
+
+
+
+## 数字解析
+
+
+
+## 进程信息
+
+
 
