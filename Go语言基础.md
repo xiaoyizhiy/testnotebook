@@ -278,7 +278,7 @@ func Intn (n int) int
 下面是一个使用 Intn 函数的例子:
 num:= rand.Intn(10)
 
-![image-20241105131255164](C:/Users/Administrator/AppData/Roaming/Typora/typora-user-images/image-20241105131255164.png)
+![image-20241105131255164](https://github.com/xiaoyizhiy/testnotebook/blob/main/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20241105131657.png?raw=true)
 
 
 
