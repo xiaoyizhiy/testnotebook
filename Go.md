@@ -70,6 +70,12 @@ fmt.Print("years old.")
 
 程序员有时候会把这种没有说明具体含义的字面数字称为魔数
 
+var 变量名类型=表达式
+
+var name string="zhangsan'
+
+在函数内部，可以使用更简略的:方式声明并初始化变量。(短变量)只能用于声明局部变量，不能用于全局变量的声明。
+
 
 
 ```go
@@ -321,4 +327,34 @@ num:= rand.Intn(10)
 ## 进程信息
 
 
+
+## Print、Printin、Printf
+
+| println  | printf(格式化输出)   | prin       |
+| -------- | -------------------- | ---------- |
+| 有空格   | 利用占位符（%d、%f） | 无空格     |
+| 自动换行 |                      | 不自动换行 |
+|          |                      |            |
+
+## 注释
+
+ctrl+/ 可以快速的注释
+
+```go
+//一次输入多个值的时候 Println 中间有空格 Print 没有
+fmt.Println("go","python","php","javascript") // go python php javascript
+fmt.Print("go","python","php","javascript")//gopythonphpjavascript
+//Println 会自动换行，Print 不会
+package main
+import "fmt'
+func main() {
+fmt.Println("hello")
+fmt.Println("world")
+// hello
+// world
+fmt.Print("hello")
+fmt.Print("world")
+// helloworld
+}
+```
 
