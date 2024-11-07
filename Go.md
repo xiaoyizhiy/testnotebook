@@ -348,14 +348,133 @@ case room =="underwater":
 
 ## 函数
 
-rand函数的声明：
+```go
+func 函数名(参数)(返回值){
+     函数体
+}
+func intsum(x, y int) int {
+return x+y //上面的代码中，intsum函数有两个参数，这两个参数的类型均为int，因此可以省略x的类型，因为y后面有类型说明，x参数也是该类型。
+```
 
-rand 包中的 Intn 函数的声明如下:
-func Intn (n int) int
-下面是一个使用 Intn 函数的例子:
-num:= rand.Intn(10)
+函数名:由字母、数字、下划线组成。但函数名的第一个字母不能是数字。在同一个包内，函数名也称不能重名(包的概念详见后文)
 
-![image-20241105131255164](https://github.com/xiaoyizhiy/testnotebook/blob/main/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20241105131657.png?raw=true)
+参数:参数由参数变量和参数变量的类型组成，多个参数之间使用,分隔。
+返回值:返回值由返回值变量和其变量类型组成，也可以只写返回值的类型，多个返回值必须用()包裹，并用,分隔。
+函数体:实现指定功能的代码块。
+
+```go
+func intsum(x int, y int) int {
+  return x+y
+}
+```
+
+#### 函数多返回值
+
+```go
+func calc(x, y int)(int, int){
+  sum:=X+y
+  sub :=x-y
+  return sum,sub
+}
+```
+
+#### 返回值命名
+
+函数定义时可以给返回值命名，并在函数体中直接使用这些变量，最后通过 return 关键字返回。
+
+```go
+func calc(x,y int)(sum, sub int){
+  sum =X+y
+  sub=x-y
+  return
+}
+```
+
+#### 全局变量
+
+全局变量是定义在函数外部的变量，它在程序整个运行周期内都有效。 在函数中可以访问到全局变量。
+
+```go
+package main
+import "fmt"
+//定义全局变量 num
+var num int64 = 10
+func testGlobalVar(){
+fmt.Printf("num=%d\n"，num)//函数中可以访问全局变量num
+func main(){
+testGlobalVar()//num=10
+}
+```
+
+#### 局部变量
+
+局部变量是函数内部定义的变量，函数内定义的变量无法在该函数外使用。
+
+例如下面的示例代码 main 函数中无法使用 testlocalVar 函数中定义的变量 x:
+
+```go
+func testLocalVar(){
+//定义一个函数局部变量x,仅在该函数内生效
+var x int64 = 100
+fmt.Printf("x=%d\n",x)
+func main(){
+testLocalVar()
+fmt.Println(x)// 此时无法使用変量x
+```
+
+如果局部变量和全局变量重名，优先访问局部变量
+
+```go
+package main
+import "fmt'
+//定义全局变量num
+var num int64 = 10
+func testNum(){
+num := 100
+fmt.Printf("num=%d\n"，num)// 函数中优先使用局部变量
+func main(){
+testNum()
+}// num=100
+```
+
+#### 定义函数类型
+
+我们可以使用 type 关键字来定义一个函数类型，具体格式如下:
+
+```go
+type calculation func(int, int)int
+```
+
+上面语句定义了一个 calculation 类型，它是一种函数类型，这种函数接收两个 int 类型的参数并且返回一个 int 类型的返回值。
+简单来说，凡是满足这个条件的函数都是 calculation 类型的函数，例如下面的 add 和 sub 是calculation 类型函数。
+
+```go
+func add(x,y int) int {
+return x+y
+}
+func sub(x, y int)int {
+return x-y
+}
+var c calculation
+c= add //add 和 sub 都能赋值给 calculation 类型的变量。
+```
+
+我们可以声明函数类型的变量并且为该变量赋值:
+
+```go
+func main(){
+var c calculation //声明一个calculation 类型的变量c
+c= add //把add 赋值给c
+fmt.Printf("type of c:%T\n",c) // type of c:main.calculation
+fmt.PrintIn(c(1,2))// 像调用 add 一样调用c
+f := add // 将函数 add 赋值给变量f
+f1fmt.Printf("type of f:%T\n",f)// type of f:func(int, int) int
+fmt.PrintIn(f(10, 20))// 像调用add 一样调用
+```
+
+
+
+
 
 
 
@@ -451,5 +570,204 @@ Go 语言中数据类型分为:基本数据类型和复合数据类型
 
 unsafe.sizeof(n1)是 unsafe 包的一个所数，可以返回 n1 变量占用的字节数
 
-#### 浮点型
+#### 布尔值
+
+Go 语言中以 bool 类型进行声明布尔型数据，布尔型数据只有true(真)和 false(假)两个值。
+注意:
+布尔类型变量的默认值为 false。
+Go 语言中不允许将整型强制转换为布尔型。
+布尔型无法参与数值运算，也无法与其他类型进行转换。
+
+#### 字符串的常用操作
+
+![image-20241107152907886](C:/Users/Administrator/AppData/Roaming/Typora/typora-user-images/image-20241107152907886.png)
+
+#### 高质量代码
+
+什么是高质量：编写的代码能够达到正确可靠、简洁清晰的目标可称之为高质量代码
+各种边界条件是否考虑完备
+异常情况处理，稳定性保证
+易读易维护
+
+#### 代码格式
+
+gofmt
+Go 语言官方提供的工具，能自动格式化 Go 语言代码为官方统一风格常见IDE都支持方便的配置
+
+goimportsRun gofmt也是 Go 语言官方提供的工具实际等于 gofmt 加上依赖包管理自动增删依赖的包引用、将依赖包按字母序排序并分类
+
+#### 注释应该解释代码作用
+
+```go
+//Returns true if the table cannot hold any more entries
+func IsTableFull()bool
+```
+
+函数名就解释了代码是做什么的了，不需要再写注释了。
+
+#### 注释应该解释代码如何做的
+
+
+
+#### 注释应该解释代码实现的原因
+
+
+
+#### 注释应该解释代码什么情况会出错
+
+代码是最好的注释：有时更新了代码却没有更新注释。
+注释应该提供代码未表达出的上下文信息。
+
+
+
+注释
+#### 命名规范（变量）
+
+简洁胜于冗长
+缩略词全大写，但当其位于变量开头且不需要导出时，使用全小写例如使用 ServeHTTP 而不是 ServeHttp、使用 XMLHTTPRequest 或者 xmlHTTPRequest
+
+变量距离其被使用的地方越远，则需要携带越多的上下文信息
+
+全局变量在其名字中需要更多的上下文信息，使得在不同地方可以轻易辨认出其含义
+
+i 和 index 的作用域范围仅限于 for 循环内部时index 的额外冗长几乎没有增加对于程序的理解
+
+```go
+// Bad
+for index :=;index<len(s);index++ {
+  // do something
+}
+// Good
+for i:=0;i<len(s); i++ {
+// do something
+}
+```
+
+http 包中创建服务的函数如何命名更好? 第一种
+func Serve(l net.Listener, handler Handler) error
+
+func ServeHTTP(l net.Listener, handler Handler) error
+
+#### 包的命名
+
+只由小写字母组成。不包含大写字母和下划线等字符简短并包含一定的上下文信息。例如 schema、task 等不要与标准库同名。例如不要使用 sync 或者 strings。
+
+以下规则尽量满足，以标准库包名为例
+不使用常用变量名作为包名。例如使用 bufio 而不是 buf
+
+使用单数而不是复数。例如使用 encoding 而不是 encodings
+
+谨慎地使用缩写。例如使用 fmt 在不破坏上下文的情况下比 format 更加简短
+
+```go
+package time
+//A function returns the current local time.
+// which one is better?func Now()Time
+
+func NowTime() Time
+// or
+func Now() Time
+// 使用
+t:= time.Now( ) //这个好
+t:= time.NowTime( ) //冗余
+
+```
+
+函数名为当前时间与包名意思一致，因为使用函数时包名与函数名捆绑。
+
+#### 控制流程
+
+- 避免嵌套，保持正常流程清晰：如果两个分支中都包含return语句，则可以去除冗余的else
+
+```go
+// Bad
+if foo {
+  return x
+} else {
+  return nil
+// Good
+if foo {
+  return x
+}
+return nil
+```
+
+- 尽量保持正常代码路径为最小缩进：优先处理错误情况/特殊情况，尽早返回或继续循环来减少嵌套。
+
+1. 最常见的正常流程的路径被嵌套在两个if 条件内
+2. 成功的退出条件是 return nil，必须仔细匹配大括号来发现函数最后一行返回一个错误，需要追溯到匹配的左括号，才能了解何时会触发错误
+3. 如果后续正常流程需要增加一步操作，调用新的函数，则又会增加一层嵌套
+
+```go
+// Good
+func OneFunc()error {
+  if err := doSomething(); err != nil {
+    return err
+  }
+  if err := doAnotherThing();err != nil{
+    return err
+  }
+return nil // normal case
+}
+```
+
+```go
+// Bad
+func OneFunc()error{
+  err := doSomething()
+  if err == nil {
+    err := doAnotherThing( )
+    if err == nil {
+      return nil // normal case
+    }
+    return err
+  }
+  return err
+}
+```
+
+#### 错误和异常处理
+
+- 简单错误：简单的错误指的是仅出现一次的错误，且在其他地方不需要捕获该错误。优先使用 errors.New 来创建匿名变量来直接表示简单错误。如果有格式化的需求，使用 fmt.Errorf
+- 错误的 Wrap 和 Unwrap：错误的 Wrap 实际上是提供了一个 error 嵌套另一个error 的能力，从而生成一个 error 的跟踪链在 fmt.Errorf 中使用: %w 关键字来将一个错误关联至错误链中
+- 错误判定：判定一个错误是否为特定错误，使用 errors.ls。不同于使用 ==，使用该方法可以判定错误链上的所有错误是否含有特定的错误。在错误链上获取特定种类的错误，使用errors.As
+- panic：不建议在业务代码中使用 panic。调用函数不包含 recover 会造成程序崩溃。若问题可以被屏蔽或解决，建议使用error 代替 panic。当程序启动阶段发生不可逆转的错误时，可以在 init 或 main 函数中使用 panic。
+- recover：recover 只能在被 defer 的函数中使用嵌套无法生效。只在当前 goroutine 生效defer 的语句是后进先出。如果需要更多的上下文信息，可以 recover 后在 log 中记录当前的调用栈。
+
+ 
+
+```go
+func main(){
+  if true{
+    defer fmt.Printf("1")
+  } else {
+    defer fmt.Printf("2")
+  }
+  defer fmt.Printf("3")
+}
+//输出
+3
+1
+```
+
+在 Go 语言中，`defer` 语句会在函数执行结束时按照 **后进先出**（LIFO，Last In First Out）顺序执行。
+
+**`if true` 分支执行**：
+因为 `if true` 条件成立，进入 `if` 分支：这会把 `fmt.Printf("1")` 加入到 **defer 队列**，但是 **并不会立即执行**。它会等到 `main` 函数即将结束时才执行。**`defer fmt.Printf("3")`**： 不论前面 `if` 语句进入的是哪一分支，`defer fmt.Printf("3")` 都会被执行，它同样被推入 **defer 队列**，等待函数结束时执行。
+
+**函数结束时执行的顺序**： 函数执行完后，`defer` 语句会按照**后进先出**（LIFO）的顺序执行，所以执行的顺序是：
+
+- 第一个 `defer fmt.Printf("3")`
+- 第二个 `defer fmt.Printf("1")`
+
+#### 小结
+
+error 尽可能提供简明的上下文信息链，方便定位问题panic 用于真正异常的情况
+recover 生效范围，在当前 goroutine 的被 defer 的函数中生效
+
+
+
+ 
+
+
 
