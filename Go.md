@@ -765,9 +765,103 @@ func main(){
 error 尽可能提供简明的上下文信息链，方便定位问题panic 用于真正异常的情况
 recover 生效范围，在当前 goroutine 的被 defer 的函数中生效
 
+#### 性能建议
 
+ Go 语言提供了支持基准性能测试的 benchmark 工具
 
- 
+ #### slice 切片
 
+在 Go 中，切片（`slice`）是一个比数组更灵活的、动态的序列类型。切片的大小可以改变，并且不需要在声明时指定固定长度。切片是 Go 中常用的数据结构，提供了动态长度和便捷的操作方式。
 
+ #### 数组
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	//一维数组
+	var arr_1 [5] int //所有元素值为0
+	fmt.Println(arr_1)
+
+	var arr_2 =  [5] int {1, 2, 3, 4, 5}
+	fmt.Println(arr_2)
+
+	arr_3 := [5] int {1, 2, 3, 4, 5}
+	fmt.Println(arr_3)
+
+	arr_4 := [...] int {1, 2, 3, 4, 5, 6} //数组大小可省略
+	fmt.Println(arr_4)
+
+	arr_5 := [5] int {0:3, 1:5, 4:6} //索引0：3表示arr[0]=3，后面同理，没赋值的默认为0
+	fmt.Println(arr_5)
+
+	//二维数组
+	var arr_6 = [3][5] int {{1, 2, 3, 4, 5}, {9, 8, 7, 6, 5}, {3, 4, 5, 6, 7}}
+	fmt.Println(arr_6)
+
+	arr_7 :=  [3][5] int {{1, 2, 3, 4, 5}, {9, 8, 7, 6, 5}, {3, 4, 5, 6, 7}}
+	fmt.Println(arr_7)
+
+	arr_8 :=  [...][5] int {{1, 2, 3, 4, 5}, {9, 8, 7, 6, 5}, {0:3, 1:5, 4:6}}
+	fmt.Println(arr_8)
+}
+```
+
+**1.1 真正的入门指南：the-way-to-go_ZH_CN**
+
+《Go 入门指南》这本开源书籍是一位 Golang 的布道者（无闻）苦于当时国内没有比较好的 Go 语言书籍，而着手翻译的一本国外书籍《The Way to Go》。该书通过对官方的在线文档、名人博客、书籍、相关文章以及演讲的资料收集和整理，并结合我自身在软件工程、编程语言和数据库开发的授课经验，将这些零碎的知识点组织成系统化的概念和技术分类来进行讲解。
+
+该书将从最基础的概念讲起，同时也会讨论一些类似在应用 goroutine 和 channel 时有多少种不同的模式，如何在 Go 语言中使用谷歌 API，如何操作内存，如何在 Go 语言中进行程序测试和如何使用模板来开发 Web 应用这些高级概念和技巧。
+
+**1.2 从零开始学 Go Web 编程：build-web-application-with-golang**
+
+《Go Web 编程》这本开源书籍，从零开始手把手教你 Go 的环境安装和配置、基本语法再到 Go Web 开发的方方面面。可谓是一书在手，“天下”（Go Web）任我行。当然书写得再好，也是“师傅领进门，修行靠个人啊！“
+
+**Part Two：再上一层楼**
+
+**2.1 七天用 Go 从零实现系列：7days-golang**
+
+用 Go 分别写一个：Web 框架、分布式缓存、ORM 框架、RPC 框架的实战教程。有些东西看懂了，不一定会用，会用了也不一定能自己搞出来。所以从零写一个框架，了解其中的细节，才能算上真正懂了吧。
+
+**2.2 Go 学习之路：golang-developer-roadmap**
+
+《Go 开发者路线图》是一个成为 Go 开发的学习路线。一图胜千言，这里选取这个项目是为了让大家能快速了解 Go 所需学习的知识点和前进的方向。
+
+![img](https://pics7.baidu.com/feed/e7cd7b899e510fb3715c6b8f7a885492d0430ca7.jpeg@f_auto?token=cd26ae2785a813f644fdd12c25e6be28)
+
+**2.3 Go 高级编程：advanced-go-programming-book**
+
+《Go 语言高级编程》作为针对有一定 Go 基础的进阶书籍，内容涵盖并发、GOC 编程、Go 汇编语言、RPC 实现、Web 框架实现、分布式系统等高阶主题。该书的附录也是一大亮点，收录了 Go 有趣的代码片段、Go 常见坑。要想 Golang 玩得溜，得在 Go 高级编程下功夫 [手动狗头]
+
+**Part Three：是时候展示真正的技术了**
+
+**3.1 星图：starcharts**
+
+这个项目是通过可视化的方式展示 GitHub 上 star 的增长曲线，也就生成是“星图”。推荐这个项目主要是运行简单和直观的数据可视化，可以快速地感受到 Go 开源项目带来的便利。我第一次玩这个项目的时候不会 Go 语言，但是参考这个项目写一个 Python 版本的星图，所以我想已经入门 Go 的各位肯定也能看懂。
+
+![img](https://pics4.baidu.com/feed/f11f3a292df5e0feaad692acc7dba8af5cdf7297.jpeg@f_auto?token=4e4f1cbd3be77af1d8641b432031b13a)
+
+有的小伙伴可能会说我没有开源项目、我的项目都没有 star 我学这个项目没用，我想了下确实是缺少些动力。如果抛开 GitHub 的 star 元素，还有一个适用更多场景的 Go 数据可视化项目：**go-echarts**。来吧，感受下数据的律动。
+
+![img](https://pics2.baidu.com/feed/d31b0ef41bd5ad6ecf82d53e2570a5dcb7fd3c29.jpeg@f_auto?token=f54db6cc366fbb3f531666ad8a5c52a1)
+
+**3.2 来 Chat 下：gochat**
+
+gochat 是纯 Go 实现的轻量级即时通讯系统。技术上各层之间通过 RPC 通讯，使用 Redis 作为消息存储与投递的载体，相对 Kafka 操作起来更加方便快捷。各层之间基于 etcd 服务发现，在扩容部署时将会方便很多。架构、目录结构清晰，文档详细。而且还提供了 Docker 一键构建，安装运行都十分方便。
+
+![img](https://pics7.baidu.com/feed/503d269759ee3d6df661eb9fdfadf1254e4ade06.jpeg@f_auto?token=94ebf6b7eb37801b91fc875dd1fd39c9)
+
+**3.3 给！拿去用：annie**
+
+Go 编写的下载快速、使用简单、程序纯净的视频下载工具。支持哔哩哔哩、YouTube 等视频网。可作为前段时间被封禁：youtube-dl 的替代品（目前已重新上架），它真的很强大！先感受下 annie 带来的便利，可能就有兴趣去探究它的源码啦。
+
+$ annie -c cookies.txt xxxx: xxxx 高清 1080P60 Size: 220.65 MiB (231363071 Bytes) # download with: annie -f default "URL" 16.03 MiB / 220.65 MiB [==>----------------------------] 7.26% 9.65 MiB/s 19s**最后**
+
+推荐几个 GitHub 上的大佬：
+
+astaxie：谢大unknwon：无闻polaris1119：polarisxu，Go 语言中文站长appleboy、chai2010
 
